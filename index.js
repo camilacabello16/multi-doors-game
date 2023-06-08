@@ -17,3 +17,12 @@ function animate() {
 }
 
 animate();
+
+window.addEventListener('keydown', (e) => {
+    switch (e.key) {
+        case 'w':
+            player.velocity.y += -10;
+
+            break;
+    }
+});
