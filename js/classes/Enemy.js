@@ -1,8 +1,8 @@
-class Player extends Sprite {
+class Enemy extends Sprite {
     constructor({ collisionBlocks = [], imageSrc, frameRate, animations, loop }) {
         super({ imageSrc, frameRate, animations, loop });
         this.position = {
-            x: 200,
+            x: 500,
             y: 200
         };
         this.velocity = {
@@ -24,39 +24,20 @@ class Player extends Sprite {
         this.applyGravity();
         this.updateHitbox();
         this.checkForVerticalCollision();
-
-        // if (this.sides.bottom + this.velocity.y < canvas.height) {
-        //     this.velocity.y += this.gravity;
-        // } else {
-        //     this.velocity.y = 0;
-        // }
     }
 
-    handleInput(keys) {
-        if (this.preventInput) return;
-        this.velocity.x = 0;
-        if (keys.a.pressed) {
-            this.switchSprite('runLeft');
-            this.velocity.x = -2;
-            this.lastDirection = 'left';
+    updateHitbox() {
+        this.hitbox = {
+            position: {
+                x: this.position.x + 33,
+                y: this.position.y + 34
+            },
+            width: 54,
+            height: 53
         }
-        else if (keys.d.pressed) {
-            this.switchSprite('runRight');
-            this.velocity.x = 2;
-            this.lastDirection = 'right';
-        }
-        else if (keys.j.pressed) {
-            if (this.lastDirection === 'left') {
-                this.switchSprite('attackLeft');
-            }
-            else this.switchSprite('attackRight');
-        }
-        else {
-            if (this.lastDirection === 'left') {
-                this.switchSprite('idleLeft');
-            }
-            else this.switchSprite('idleRight');
-        }
+
+        // c.fillStyle = "#e74c3c70";
+        // c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height);
     }
 
     switchSprite(name) {
@@ -67,17 +48,6 @@ class Player extends Sprite {
         this.frameBuffer = this.animations[name].frameBuffer;
         this.loop = this.animations[name].loop;
         this.currentAnimation = this.animations[name];
-    }
-
-    updateHitbox() {
-        this.hitbox = {
-            position: {
-                x: this.position.x + 58,
-                y: this.position.y + 34
-            },
-            width: 50,
-            height: 53
-        }
     }
 
     checkForHorizontalCollision() {

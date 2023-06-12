@@ -36,6 +36,18 @@ const player = new Player({
             loop: true,
             imageSrc: './img/king/runLeft.png'
         },
+        attackRight: {
+            frameRate: 3,
+            frameBuffer: 5,
+            loop: true,
+            imageSrc: './img/king/Attack.png'
+        },
+        attackLeft: {
+            frameRate: 3,
+            frameBuffer: 5,
+            loop: true,
+            imageSrc: './img/king/attackLeft.png'
+        },
         enterDoor: {
             frameRate: 8,
             frameBuffer: 5,
@@ -60,6 +72,39 @@ const player = new Player({
     }
 });
 
+const enemies = [
+    new Enemy({
+        imageSrc: './img/pig/Idle.png',
+        frameRate: 11,
+        animations: {
+            idleLeft: {
+                frameRate: 11,
+                frameBuffer: 5,
+                loop: true,
+                imageSrc: './img/pig/Idle.png'
+            },
+            idleRight: {
+                frameRate: 11,
+                frameBuffer: 5,
+                loop: true,
+                imageSrc: './img/pig/idleRight.png'
+            },
+            runRight: {
+                frameRate: 6,
+                frameBuffer: 5,
+                loop: true,
+                imageSrc: './img/pig/runRight.png'
+            },
+            runLeft: {
+                frameRate: 6,
+                frameBuffer: 5,
+                loop: true,
+                imageSrc: './img/pig/Run.png'
+            },
+        }
+    })
+]
+
 let level = 1;
 let levels = {
     1: {
@@ -67,6 +112,10 @@ let levels = {
             parsedCollisions = collisionsLevel1.parse2D();
             collisionBlocks = parsedCollisions.createObjectFrom2D();
             player.collisionBlocks = collisionBlocks;
+            enemies.forEach(enemy => {
+                enemy.collisionBlocks = collisionBlocks;
+                enemy.switchSprite("idleLeft");
+            });
 
             if (player.currentAnimation) player.currentAnimation.isActive = false;
 
@@ -101,6 +150,10 @@ let levels = {
             player.position.x = 80;
             player.position.y = 50;
 
+            enemies.forEach(enemy => {
+                enemy.collisionBlocks = collisionBlocks;
+            });
+
             if (player.currentAnimation) player.currentAnimation.isActive = false;
 
             background = new Sprite({
@@ -133,6 +186,10 @@ let levels = {
             player.collisionBlocks = collisionBlocks;
             player.position.x = 700;
             player.position.y = 100;
+
+            enemies.forEach(enemy => {
+                enemy.collisionBlocks = collisionBlocks;
+            });
 
             if (player.currentAnimation) player.currentAnimation.isActive = false;
 
@@ -172,6 +229,9 @@ const keys = {
     w: {
         pressed: false
     },
+    j: {
+        pressed: false
+    },
 }
 
 const overlay = {
@@ -194,6 +254,11 @@ function animate() {
 
     player.draw();
     player.update();
+
+    enemies.forEach(enemy => {
+        enemy.draw();
+        enemy.update();
+    })
 
     c.save();
     c.globalAlpha = overlay.opacity;

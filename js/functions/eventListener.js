@@ -29,6 +29,9 @@ window.addEventListener('keydown', (e) => {
         case 'd':
             keys.d.pressed = true;
             break;
+        case 'j':
+            keys.j.pressed = true;
+            break;
     }
 });
 
@@ -39,6 +42,9 @@ window.addEventListener('keyup', (e) => {
             break;
         case 'd':
             keys.d.pressed = false;
+            break;
+        case 'j':
+            keys.j.pressed = false;
             break;
     }
 });
